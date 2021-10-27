@@ -13,3 +13,12 @@ RoboRival
 
 
 /* Functions ------------------------------------------------------*/
+void encodersSetup();
+
+void readEncoderRL(void);
+
+void readEncoderRR(void);
+
+void getSpeed(void);
+
+void getDist(void);
