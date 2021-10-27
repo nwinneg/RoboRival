@@ -13,7 +13,7 @@ RoboRival
 
 
 /* Functions ------------------------------------------------------*/
-void encodersSetup();
+void encodersSetup(void);
 
 void readEncoderRL(void);
 
