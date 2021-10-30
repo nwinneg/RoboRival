@@ -54,6 +54,10 @@ void loop()
             distVec[count] = currDist;
             speedVec[count] = currSpeed;
         }
+        else {
+            solveSpeed();
+            solveDistance();
+        }
     }
     else {
         // kill motors 
