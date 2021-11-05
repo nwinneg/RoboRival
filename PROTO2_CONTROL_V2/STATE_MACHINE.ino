@@ -18,14 +18,16 @@ typedef enum
   STOPPING
 } robot_state;
 
-typedef enum
+robot_state state;
+
+typedef enum 
 {
   // list out the events that can trigger things here
-}event_types;
+} event_type;
 
 /* Functions ------------------------------------------------------*/
 
-void stateMachineFunction (event_type new_event)
+void stateMachineFunction (event_type newEvent)
 {
   switch (state)
   {

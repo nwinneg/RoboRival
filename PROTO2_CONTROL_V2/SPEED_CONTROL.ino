@@ -29,8 +29,8 @@ void computeSpeed(void)
 
 void speedPID(void)
 {
-  error = setpointSpeed - currSpeedEnc;
-  d_error = (error - prevSpeedError)/dT; /* dT TBD */
+  float error = setpointSpeed - currSpeedEnc;
+  float d_error = (error - prevSpeedError)/*/dT*/; /* dT TBD */
   integralSpeedError = integralSpeedError + error;
 
   float cmd = (kp_speed * error) + (ki_speed * integralSpeedError) + (kd_speed * d_error);
