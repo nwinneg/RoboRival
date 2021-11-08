@@ -10,15 +10,24 @@ RoboRival
 #include "Servo.h"
 
 /* Macros ---------------------------------------------------------*/
-#define SERVOPIN  9
+#define SERVOPIN  11
+#define SERVO_HOME  82 // center position
+#define SERVO_RANGE 10 // maximum movement in either direction
 
 Servo servo;
-float servoPos;
 
 /* Functions ------------------------------------------------------*/
 void setupServo()
 {
   servo.attach(SERVOPIN);
-  servoPos = 90;
-  servo.write(servoPos);
+  servo.write(SERVO_HOME);
+}
+
+void moveServo(int servoPOS) {
+  // use this function to restrain the input position
+  if (servoPOS > (SERVO_HOME + SERVO_RANGE) || servoPOS < (SERVO_HOME - SERVO_RANGE)) {
+    Serial.print("Out of steering range\n");
+    // other stuff
+  }
+  servo.write(servoPOS);
 }
