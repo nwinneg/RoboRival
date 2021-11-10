@@ -22,7 +22,7 @@ typedef enum
 bool TEST = true;
 static unsigned long lastTime = 0;
 unsigned long currentTime;
-event_type event;
+event_type event = NONE;
 
 void setup() {
   // put your setup code here, to run once:
@@ -37,14 +37,17 @@ void loop() {
   
   if (TEST) {
     currentTime = millis(); //tracking time
-    if (currentTime < 5000) {
+    if (currentTime > 1000 && currentTime < 2000) {
       event = UI_START; // start with UI_START
     }
-    if (currentTime > 5000 && currentTime < 10000) {
-      event = TIMER_ENDS; // after 5 sec, TIMER_ENDS becomes the event
+    if (currentTime > 5000 && currentTime < 6000) {
+      event = TIMER_ENDS; // after about 5 sec, TIMER_ENDS becomes the event
     }
-    if (currentTime > 10000) {
-      event = ESTOP; // after 10 sec, ESTOP becomes the event
+    if (currentTime > 8000 && currentTime < 9000) {
+      event = ESTOP; // after aboyt 8 sec, ESTOP becomes the event
+    }
+    if (currentTime > 11000 && currentTime < 12000) {
+      event = STOPPED; // after about 11 sec, STOPPED becomes the event
     }
     roborival_FSM(event);
   }

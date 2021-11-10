@@ -45,24 +45,28 @@ void roborival_FSM (event_type newEvent) {
     case WAITING:
       switch (newEvent) {
         case UI_START:
-          Serial.print("Entered UI_START\n");
+          Serial.print("Event UI_START\n");
           nextState = COUNTDOWN;
           calibRoutine(); // hidden action
           countdRoutine(); // actual action
+          break;
         default:
-          Serial.print("STUCK\n");
+          Serial.print("ENTERED WAITING State\n");
           nextState = currentState;
+          break;
       }
       break;
     case COUNTDOWN:
       switch (newEvent) {
         case TIMER_ENDS:
-          Serial.print("Entered TIMER_ENDS\n");
+          Serial.print("Event TIMER_ENDS\n");
           nextState = DRIVING_STRAIGHT;
           forwardRoutine(); // a routine that includes driving motors and tracking lines
+          break;
         default:
-          Serial.print("Entered COUNTDOWN\n");
+          Serial.print("Entered COUNTDOWN State\n");
           nextState = currentState;
+          break;
       }
       break; 
     
@@ -71,20 +75,28 @@ void roborival_FSM (event_type newEvent) {
         case OBS_DETECTED:
           nextState = AVOIDING_OBSTACLE;
           avoidRoutine();
+          break;
         case IMPACT_DETECTED:
           nextState = STOPPING;
           stopRoutine();
+          break;
         case ESTOP:
+          Serial.print("Event ESTOP\n");
           nextState = STOPPING;
           stopRoutine();
+          break;
         case RACE_COMPLETED:
           nextState = STOPPING;
           stopRoutine();
+          break;
 //        case TURN_DETECTED:
 //          nextState = DRIVING_CORNER;
 //          stopRoutine();
+//          break;
         default:
+          Serial.print("Entered DRIVING_STRAIGHT State\n");
           nextState = currentState;
+          break;
       }
       break;
       
@@ -96,6 +108,7 @@ void roborival_FSM (event_type newEvent) {
         case OBS_CLEARED:
           nextState = DRIVING_STRAIGHT;
           forwardRoutine();
+          break;
         default:
           nextState = currentState;
       }
@@ -104,9 +117,13 @@ void roborival_FSM (event_type newEvent) {
     case STOPPING:
       switch (newEvent) {
         case STOPPED:
+          Serial.print("Event STOPPED\n");
           nextState = WAITING;
+          break;
         default:
+          Serial.print("Entered STOPPING State\n");
           nextState = currentState;
+          break;
       }
       break;
   }
