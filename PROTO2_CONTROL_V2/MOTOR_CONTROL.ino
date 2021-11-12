@@ -31,10 +31,10 @@ void setupMotors(void)
 void setMotorPWM_All(float dutyCycle)
 {
   float motorSetting = (dutyCycle/100)*255;
-  digitalWrite(MOTORPIN_RL, motorSetting);
-  digitalWrite(MOTORPIN_RR, motorSetting);
-  digitalWrite(MOTORPIN_FL, motorSetting);
-  digitalWrite(MOTORPIN_FR, motorSetting);
+  analogWrite(MOTORPIN_RL, motorSetting);
+  analogWrite(MOTORPIN_RR, motorSetting);
+  analogWrite(MOTORPIN_FL, motorSetting);
+  analogWrite(MOTORPIN_FR, motorSetting);
 
   digitalWrite(DIRCONTROLRL, HIGH);
   digitalWrite(DIRCONTROLRR, HIGH);
@@ -47,16 +47,16 @@ void setMotorPWM_All(float dutyCycle)
 void setMotorPWM_Left(float dutyCycle)
 {
   float motorSetting = (dutyCycle/100)*255;
-  digitalWrite(MOTORPIN_RL, motorSetting);
-  digitalWrite(MOTORPIN_FL, motorSetting);
+  analogWrite(MOTORPIN_RL, motorSetting);
+  analogWrite(MOTORPIN_FL, motorSetting);
 }
 
 // set right motors to the same speed
 void setMotorPWM_Right(float dutyCycle)
 {
   float motorSetting = (dutyCycle/100)*255;
-  digitalWrite(MOTORPIN_RR, motorSetting);
-  digitalWrite(MOTORPIN_FR, motorSetting);
+  analogWrite(MOTORPIN_RR, motorSetting);
+  analogWrite(MOTORPIN_FR, motorSetting);
 }
 
 void setMotorSTOP()
@@ -64,5 +64,5 @@ void setMotorSTOP()
   digitalWrite(DIRCONTROLRL, LOW);
   digitalWrite(DIRCONTROLRR, LOW);
   digitalWrite(DIRCONTROLFL, LOW);
-  digitalWrite(DIRCONTROLFL, LOW);
+  digitalWrite(DIRCONTROLFR, LOW);
 }

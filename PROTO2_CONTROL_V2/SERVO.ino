@@ -28,6 +28,7 @@ void moveServo(int servoPOS) {
   if (servoPOS > (SERVO_HOME + SERVO_RANGE) || servoPOS < (SERVO_HOME - SERVO_RANGE)) {
     Serial.print("Out of steering range\n");
     // other stuff
+  } else {
+    servo.write(servoPOS);
   }
-  servo.write(servoPOS);
 }
