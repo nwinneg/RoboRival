@@ -10,8 +10,8 @@ RoboRival
 #include "Servo.h"
 
 /* Macros ---------------------------------------------------------*/
-#define SERVOPIN  11
-#define SERVO_HOME  82 // center position
+#define SERVOPIN  13
+#define SERVO_HOME  95 // center position
 #define SERVO_RANGE 10 // maximum movement in either direction
 
 Servo servo;

@@ -7,14 +7,15 @@ RoboRival
 /* Includes -------------------------------------------------------*/
 
 /* Macros ---------------------------------------------------------*/
-#define MOTORPIN_RL    2 
-#define DIRCONTROLRL  22
-#define MOTORPIN_RR    3 
-#define DIRCONTROLRR  23
-#define MOTORPIN_FL    5 
+#define MOTORPIN_RL    7 
+#define DIRCONTROLRL  12
+#define MOTORPIN_RR    8 
+#define DIRCONTROLRR  11
+#define MOTORPIN_FL   10 
 #define DIRCONTROLFL  53
-#define MOTORPIN_FR    4 
-#define DIRCONTROLFR  52 
+#define MOTORPIN_FR    9 
+#define DIRCONTROLFR  52
+ 
 #define MOTOR_MAXPWR  50
 #define MOTOR_MINPWR  25
 
