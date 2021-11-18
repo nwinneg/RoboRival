@@ -54,7 +54,7 @@ void loop() {
       followLine();
       if ((currentTime - lastTimeSpeed) >= SPEED_INTERVAL) {
         motorCmd = speedPID();
-        writeMotorsALL(motorCmd);
+        setMotorPWM_All(motorCmd);
       }
       lastTime = currentTime;
       lastTimeSpeed = currentTime;

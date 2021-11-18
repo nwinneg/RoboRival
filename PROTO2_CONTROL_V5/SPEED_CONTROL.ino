@@ -9,7 +9,7 @@ RoboRival
 
 /* Macros ---------------------------------------------------------*/
 //float setpointSpeed;
-float setPointSpeed;
+//float setPointSpeed;
 float setpointPWM;
 
 float prevSpeedError;

@@ -1,3 +1,6 @@
+#ifndef IR
+#define IR
+
 /* Includes -------------------------------------------------------*/
 #include <QTRSensors.h>
 /* Macros ---------------------------------------------------------*/
@@ -16,7 +19,9 @@ uint16_t linePosition;
 uint16_t prevLinePosition;
 
 /* Moved to PID_Params.h */
- float kp_line = 0.3, kd_line = 0;
- float lineRef = 125, lineRefDot = 0;
+// float kp_line = 0.3, kd_line = 0;
+// float lineRef = 125, lineRefDot = 0;
 
 float turningAngle = 92;
+
+#endif

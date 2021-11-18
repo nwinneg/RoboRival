@@ -1,3 +1,6 @@
+#ifndef PID
+#define PID
+
 
 /* Parameteres for Speed PID */
 float setpointSpeed = 0.5;
@@ -9,3 +12,5 @@ float lineRef = 125, lineRefDot = 0;
 
 /* Motor PWM Cmd for tracking purposes */
 float motorCmd;
+
+#endif

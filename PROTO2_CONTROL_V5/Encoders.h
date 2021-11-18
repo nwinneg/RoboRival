@@ -1,3 +1,6 @@
+#ifndef ENCODERS
+#define ENCODERS
+
 #define ENCA_RL   18
 #define ENCA_RR   19
 #define ENCB_RL   50
@@ -18,3 +21,5 @@ float speedLeft;
 float speedRight;
 double currDistanceEnc;
 double currSpeedEnc;
+
+#endif
