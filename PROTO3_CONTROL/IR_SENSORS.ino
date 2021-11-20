@@ -24,7 +24,7 @@ void setupIR(void)
     qtr.calibrate();
   }
   //digitalWrite(LED_BUILTIN, LOW); 
-  Serial.begin(9600);
+//  Serial.begin(9600);
   // print calibration minimum values
   for (uint8_t i = 0; i < NUM_SENSORS; i++)
   {
@@ -61,7 +61,7 @@ void followLine(void)
 
  // replace 84 with SERVO_HOME
   new_turningAngle = (84) + (kp_line * e_p); //+ kd_line * e_d;
-  if (abs(new_turningAngle - last_turningAngle) < 3.) {
+  if (abs(new_turningAngle - last_turningAngle) < 2.) {
     turningAngle = last_turningAngle;
   } else {
     turningAngle = new_turningAngle;

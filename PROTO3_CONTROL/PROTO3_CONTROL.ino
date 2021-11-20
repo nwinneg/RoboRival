@@ -1,8 +1,14 @@
+#define ENCA_RL   18
+#define ENCA_RR   19
+#define ENCB_RL   50
+#define ENCB_RR   51
+
+#define START_PIN   2
+#define CALIB_PIN   3
+
 using namespace std;
 
 #include "IR.h"
-
-//#define startTime 0
 
 // event_type is moved here for testing purpose
 // otherwise the variable event would have undeclared type
@@ -21,19 +27,7 @@ typedef enum
   NONE
 } event_type;
 
-static unsigned long lastTime = 0;
-unsigned long startTime;
-unsigned long currentTime;
-unsigned long runTime;
 event_type event = NONE;
-
-#define ENCA_RL   18
-#define ENCA_RR   19
-#define ENCB_RL   50
-#define ENCB_RR   51
-
-#define START_PIN 2
-#define CALIB_PIN 3
 
 // wheel physical params
 //float wheelRad = 0.05461; //4.3"
@@ -56,29 +50,35 @@ double currSpeedEnc;
 float setpointSpeed = 0.5;
 float kp_speed = 1; float ki_speed = 1; float kd_speed = 1;
 
+bool calibration  = false;
+bool starts_moving = true;
+
+static unsigned long lastTime = 0;
+unsigned long startTime;
+unsigned long currentTime;
+unsigned long currentTimePi;
+unsigned long runTime;
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(9600/*115200*/);
   setupMotors();
   setupEncoders();
   pinMode(START_PIN, INPUT);
   pinMode(CALIB_PIN, INPUT);
 }
 
-bool calibration  = false;
-bool starts_moving = true;
-
 void loop() {
-  // put your main code here, to run repeatedly:
   currentTime = millis();
+  currentTimePi = micros();
 
   // All events will happen after calibration is done
   if (digitalRead(CALIB_PIN) == HIGH){
     if (!calibration) {
-      Serial.println("Start calibrating");
-      setupIR();
-      setupServo();
-      Serial.println("Calibrated");
+      calibRoutine(); // set up IR and then servo
       calibration = true;
     }
 
@@ -86,24 +86,20 @@ void loop() {
     if (digitalRead(START_PIN) == HIGH){
       ////////// SPEED ////////////
       if (starts_moving) {
-//        Serial.println("Speed 30");
-//        setMotorPWM_All(35);
+        setMotorPWM_All(35);
         startTime = millis();
         starts_moving = false;
       }
       if ((currentTime - startTime) > 2500) {
-//        Serial.println("Speed 25");
-//        setMotorPWM_All(22);
+        setMotorPWM_All(25);
       }
       //////// LINE TRACKING ///////
-//      encoders_TEST();
-//      readEncoders();
-      readIRSensors();
-      followLine();
+      forwardRoutine(); // read IR sensors, follow line and read encoders
     } else if (digitalRead(START_PIN) == LOW) {
-       setMotorSTOP();
+       stopRoutine();
     }
   }
+
 }
 
 //////////////////////

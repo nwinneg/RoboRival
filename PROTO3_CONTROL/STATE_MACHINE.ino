@@ -109,6 +109,11 @@ void roborival_FSM (event_type newEvent) {
           nextState = DRIVING_STRAIGHT;
           forwardRoutine();
           break;
+        case ESTOP:
+          Serial.print("Event ESTOP\n");
+          nextState = STOPPING;
+          stopRoutine();
+          break;
         default:
           nextState = currentState;
       }
@@ -131,8 +136,10 @@ void roborival_FSM (event_type newEvent) {
 }
 
 void calibRoutine() {
-  delay(1000); // only for testing
-  Serial.print("Calibrating\n");
+  Serial.println("Start calibrating");
+  setupIR();
+  setupServo();
+  Serial.println("Calibrated");
 }
 
 void countdRoutine() {
@@ -141,12 +148,16 @@ void countdRoutine() {
 }
 
 void forwardRoutine() {
-  Serial.print("Going forward\n");
-  float spd = 10; // only for testing
-  int duration = 2000; // only for testing
-  setMotorPWM_All(spd);
-  delay(duration);
-  setMotorPWM_All(0);
+//  Serial.print("Going forward\n");
+  readEncoders();
+  Serial.print(currentTimePi);
+  Serial.print('\t');
+  Serial.print((int) (currDistanceEnc*100));
+  Serial.print('\t');
+  Serial.print((int) (currSpeedEnc*100));
+  Serial.print('\n');
+  readIRSensors();
+  followLine();
 }
 
 void avoidRoutine() {
@@ -155,6 +166,5 @@ void avoidRoutine() {
 }
 
 void stopRoutine() {
-  delay(1000);
-  Serial.print("Stopping\n");
+  setMotorSTOP();
 }
