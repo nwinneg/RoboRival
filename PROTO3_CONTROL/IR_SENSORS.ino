@@ -61,7 +61,7 @@ void followLine(void)
 
  // replace 84 with SERVO_HOME
   new_turningAngle = (84) + (kp_line * e_p); //+ kd_line * e_d;
-  if (abs(new_turningAngle - last_turningAngle) < 2.) {
+  if (abs(new_turningAngle - last_turningAngle) < 1.) {
     turningAngle = last_turningAngle;
   } else {
     turningAngle = new_turningAngle;

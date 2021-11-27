@@ -76,4 +76,19 @@ void readEncoders(void)
   //compute averaged data
   currDistanceEnc = (distLeft + distRight)/2.0;
   currSpeedEnc = (speedLeft + speedRight)/2.0;
+
+  // pop the first entry and shift others forward by one
+  for (int i = 0; i < 4; i++) {
+    SpeedEncHist[i] = SpeedEncHist[i+1];
+  }
+
+  // add the new reading to the end of the array
+  SpeedEncHist[4] = currSpeedEnc;
+
+  // compute average over 5 consecutive readings
+  double sum = 0;
+  for (int i = 0; i < 5; i++) {
+    sum += SpeedEncHist[i];
+  }
+  avgSpeedEnc = sum/5.;
 }

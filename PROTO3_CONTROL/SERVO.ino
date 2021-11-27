@@ -12,7 +12,7 @@ RoboRival
 /* Macros ---------------------------------------------------------*/
 #define SERVOPIN  13
 #define SERVO_HOME  84 // center position
-#define SERVO_RANGE 30 // maximum movement in either direction
+#define SERVO_RANGE 40 // maximum movement in either direction
 
 Servo servo;
 

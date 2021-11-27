@@ -14,7 +14,7 @@ unsigned long previousMicros = 0;
 uint16_t linePosition;
 uint16_t prevLinePosition;
 
-float kp_line = 0.3, kd_line = 0;
+float kp_line = 0.4, kd_line = 0;
 float lineRef = 125, lineRefDot = 0;
 
 float turningAngle = 84; // SERVO_HOME

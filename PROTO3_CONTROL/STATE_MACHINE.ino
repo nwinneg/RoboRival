@@ -154,7 +154,9 @@ void forwardRoutine() {
   Serial.print('\t');
   Serial.print((int) (currDistanceEnc*100));
   Serial.print('\t');
-  Serial.print((int) (currSpeedEnc*100));
+  Serial.print((int) (currSpeedEnc*1000));
+  Serial.print('\t');
+  Serial.print((int) (avgSpeedEnc*1000));
   Serial.print('\n');
   readIRSensors();
   followLine();

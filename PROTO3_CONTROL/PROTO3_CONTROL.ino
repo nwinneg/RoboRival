@@ -45,6 +45,8 @@ float distLeftPrev;
 float speedLeft;
 float speedRight;
 double currDistanceEnc;
+double SpeedEncHist[5] = {0, 0, 0, 0, 0};
+double avgSpeedEnc;
 double currSpeedEnc;
 
 float setpointSpeed = 0.5;
@@ -86,7 +88,7 @@ void loop() {
     if (digitalRead(START_PIN) == HIGH){
       ////////// SPEED ////////////
       if (starts_moving) {
-        setMotorPWM_All(35);
+        setMotorPWM_All(30);
         startTime = millis();
         starts_moving = false;
       }
@@ -94,6 +96,7 @@ void loop() {
         setMotorPWM_All(25);
       }
       //////// LINE TRACKING ///////
+      currDistanceEnc = 0;
       forwardRoutine(); // read IR sensors, follow line and read encoders
     } else if (digitalRead(START_PIN) == LOW) {
        stopRoutine();
@@ -103,13 +106,13 @@ void loop() {
 }
 
 //////////////////////
-void encoders_TEST() {
-//  currentTime = millis();
-  readEncoders();
-  Serial.print(currDistanceEnc);
-  Serial.print("\t");
-  Serial.println(currSpeedEnc);
-}
+//void encoders_TEST() {
+////  currentTime = millis();
+//  readEncoders();
+//  Serial.print(currDistanceEnc);
+//  Serial.print("\t");
+//  Serial.println(currSpeedEnc);
+//}
 ///////////////////
 //void FSM_TEST() {
 //  if (TEST) {
