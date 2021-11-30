@@ -30,7 +30,7 @@ void computeSpeed(void)
 float speedPID(void)
 {
   float error = setpointSpeed - currSpeedEnc;
-  float d_error = (error - prevSpeedError)/*/dT*/; /* dT TBD */
+  float d_error = (error - prevSpeedError)*(currentTime - prevTime);/*/dT*/; /* dT TBD */
   integralSpeedError = integralSpeedError + error;
   Serial.print(error);
   Serial.print('\t');

@@ -49,7 +49,7 @@ double SpeedEncHist[5] = {0, 0, 0, 0, 0};
 double avgSpeedEnc;
 double currSpeedEnc;
 
-float setpointSpeed = 0.5;
+float setpointSpeed = 0.8;
 float kp_speed = 1; float ki_speed = 1; float kd_speed = 1;
 
 bool calibration  = false;
@@ -58,6 +58,7 @@ bool starts_moving = true;
 static unsigned long lastTime = 0;
 unsigned long startTime;
 unsigned long currentTime;
+unsigned long prevTime;
 unsigned long currentTimePi;
 unsigned long runTime;
 
@@ -88,7 +89,7 @@ void loop() {
     if (digitalRead(START_PIN) == HIGH){
       ////////// SPEED ////////////
       if (starts_moving) {
-        setMotorPWM_All(30);
+        setMotorPWM_All(35);
         startTime = millis();
         starts_moving = false;
       }
@@ -102,6 +103,7 @@ void loop() {
        stopRoutine();
     }
   }
+  prevTime = currentTime;
 
 }
 
