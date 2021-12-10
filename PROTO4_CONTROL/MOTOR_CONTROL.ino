@@ -10,7 +10,7 @@ RoboRival
 #define MOTORPIN_RL    7 
 #define DIRCONTROLRL  12
 #define MOTORPIN_RR    8 
-#define DIRCONTROLRR  11
+#define DIRCONTROLRR  13
 #define MOTORPIN_FL   10 
 #define DIRCONTROLFL  53
 #define MOTORPIN_FR    9 
@@ -34,7 +34,7 @@ void setupMotors(void)
 void setMotorPWM_All(float dutyCycle)
 {
   if (dutyCycle < MOTOR_MINPWR || dutyCycle > MOTOR_MAXPWR) {
-    Serial.print("Out of power range\n");
+//    Serial.print("Out of power range\n");
     setMotorSTOP();
     } else {
       float motorSetting = (dutyCycle/100)*255;

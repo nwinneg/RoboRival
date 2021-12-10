@@ -14,6 +14,7 @@ unsigned long currentTime;
 unsigned long prevTime;
 unsigned long currentTimePi;
 //unsigned long runTime;
+unsigned long startDrivingTime;
 
 event_type event=NONE;
 //////////////////////////////////////////////////////////
@@ -25,10 +26,13 @@ void setup() {
   setupMotors();
   setupEncoders();
   FastLED.addLeds<NEOPIXEL, 6>(leds, nleds);
+  FastLED.setBrightness(LED_BRIGHTNESS);
   pinMode(START_PIN, INPUT);
   pinMode(CALIB_PIN, INPUT);
   pinMode(ESTOP_PIN, INPUT);
   pinMode(RESET_PIN, INPUT);
+  pinMode(CV_CTRL_PIN, OUTPUT);
+  digitalWrite(CV_CTRL_PIN,HIGH);
 }
 
 void loop() {
@@ -36,7 +40,6 @@ void loop() {
   currentTimePi = micros();
 
   ///////////////// CHECK CALIBRATION ////////////////////
-//  Serial.print(checkCalibration());
   if (checkCalibration()) {
     // state goes from WAITING to SETUP
     event = UI_CALIBRATION;
@@ -45,16 +48,13 @@ void loop() {
   }
   ///////////////////////////////////////////////////////
   ///////////////// CHECK START/STOP ////////////////////
-  Serial.print(checkStart());
   if (checkStart()) {
     // TEMP: state goes from SETUP to COUNTDOWN
     event = UI_START;
     roborival_FSM(event);
     // will run countdRoutine()
   }
-  Serial.print(checkStop());
   if (checkStop()) {
-//    Serial.print(checkStop());
     // TEMP: state goes from DRIVING STRAIGHT to SETUP
     event = UI_STOP;
     roborival_FSM(event);
@@ -62,9 +62,7 @@ void loop() {
   }
   ///////////////////////////////////////////////////////
   ////////////////////CHECK CDTIMER//////////////////////
-//  Serial.print(checkCountdTimer());
   if (checkCountdTimer()) {
-//    Serial.println("Imhere");
     // state goes from COUNTDOWN to DRIVING STRAIGHT
     event = TIMER_ENDS;
     roborival_FSM(event);
@@ -72,18 +70,18 @@ void loop() {
   }
   ///////////////////////////////////////////////////////
   ////////////////////CHECK ESTOP////////////////////////
-  Serial.print(checkESTOP());
+//  Serial.print(checkESTOP());
   if (checkESTOP()) {
     // state goes from DRIVING FORWARD to STOPPING
     event = ESTOP;
     roborival_FSM(event);
-    // will run forwardRoutine()
+    // will run stopRoutine()
   }
   ////////////////////CHECK RESET////////////////////////
   if (checkReset()) {
     event = UI_RESET;
     roborival_FSM(event);
-    // will run forwardRoutine()
+    // will run stopRoutine()
   } 
   //////////////////CHECK if STOPPPED////////////////////
 //  if (checkStopped()) {

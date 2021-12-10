@@ -1,3 +1,12 @@
+///////SERVO////////
+/* Includes -------------------------------------------------------*/
+#include "Servo.h"
+
+/* Macros ---------------------------------------------------------*/
+#define SERVOPIN  11
+#define SERVO_HOME  93 // center position
+#define SERVO_RANGE 30 // maximum movement in either direction
+
 /////ENCODERS////////
 #define ENCA_RL   18
 #define ENCA_RR   19
@@ -24,20 +33,30 @@ double currSpeedEnc;
 //float wheelRad = 0.05461; //4.3"
 float wheelRad = 0.0525; //4.13"
 
-/////PI CONTROL/////
+/////PI CONTROL////////////
 #define START_PIN   2
 #define CALIB_PIN   3
 #define ESTOP_PIN   4
 #define RESET_PIN   5
+#define CV_CTRL_PIN   45
 
-/////LED///////
+/////LED///////////////////
 #include "FastLED.h"
+#define LED_BRIGHTNESS 20
 #define nleds 36
 CRGB leds[nleds];
 
 //// SPEED CONTROL////////
+//float setpointSpeed;
+float tempSetpointSpeed;
+float setpointPWM;
+
+float prevSpeedError;
+float integralSpeedError;
+
 float setpointSpeed = 0.8;
-float kp_speed = 1; float ki_speed = 1; float kd_speed = 1;
+float kp_speed = 5; float ki_speed = 0.5; float kd_speed = 1;
+float deadZonePWM = 30;
 
 /////COUNTDOWN//////////
 unsigned long countdTime = 0;

@@ -6,13 +6,13 @@ RoboRival
     https://github.com/pololu/qtr-sensors-arduino
 */
 
-/* Includes -------------------------------------------------------*/
-#include "Servo.h"
-
-/* Macros ---------------------------------------------------------*/
-#define SERVOPIN  13
-#define SERVO_HOME  84 // center position
-#define SERVO_RANGE 40 // maximum movement in either direction
+///* Includes -------------------------------------------------------*/
+//#include "Servo.h"
+//
+///* Macros ---------------------------------------------------------*/
+//#define SERVOPIN  13
+//#define SERVO_HOME  84 // center position
+//#define SERVO_RANGE 40 // maximum movement in either direction
 
 Servo servo;
 

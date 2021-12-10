@@ -41,17 +41,17 @@ void roborival_FSM (event_type newEvent) {
         case UI_CALIBRATION:
           Serial.println("Event UI_CALIBRATION");
           waiting_led(false);
-//          setLEDColor(CRGB::Black);
           nextState = SETUP;
           setLEDColor(CRGB::Yellow);
-//          setup_led(true);
           calibRoutine(); // 10 secs
           setLEDColor(CRGB::HotPink);
-//          setup_led(false); 
+          digitalWrite(CV_CTRL_PIN, HIGH);
           break;
         default:
           waiting_led(true);
-          Serial.println("ENTERED WAITING State");
+//          Serial.println("ENTERED WAITING State");
+          digitalWrite(CV_CTRL_PIN, HIGH);
+//          wait4setting();
           nextState = currentState;
           break;
       }
@@ -60,25 +60,20 @@ void roborival_FSM (event_type newEvent) {
       switch (newEvent) {
         case UI_START:
           Serial.println("Event UI_START");
+          Serial.print("The set speed is ");
+          Serial.println(setpointSpeed);
           nextState = COUNTDOWN;
+          countdRoutine();
           setLEDColor(CRGB::Red);
           countdown_led(true);
-//          setLEDColor(CRGB::Purple);
-          countdRoutine();
-          digitalWrite(UI_RESET, LOW);
-//          for (int i = 0; i < 10; i++)
-//          {
-//            countdown_led(true);
-//            delay(1000);
-//          }
-//          setLEDColor(CRGB::Orange);
           break;
         case UI_RESET:
           Serial.println("Event UI_RESET");
+          digitalWrite(CV_CTRL_PIN, HIGH);
           nextState = WAITING;
           break;
         default:
-          Serial.println("ENTERED SETUP STATE");
+//          Serial.println("ENTERED SETUP STATE");
           nextState = currentState;
           break;
       }
@@ -86,18 +81,20 @@ void roborival_FSM (event_type newEvent) {
     case COUNTDOWN:
       switch (newEvent) {
         case TIMER_ENDS:
-          Serial.print("Event TIMER_ENDS");
-//          setLEDColor(CRGB::Purple);
+          Serial.println("Event TIMER_ENDS");
           nextState = DRIVING_STRAIGHT;
           countdown_led(false);
 //          forwardRoutine(); // read IR sensors, follow line and read encoders
+          startDrivingTime = millis();
+          digitalWrite(CV_CTRL_PIN, LOW);
           break;
         case UI_RESET:
-          Serial.println("Event UI_RESET");
+//          Serial.println("Event UI_RESET");
+          digitalWrite(CV_CTRL_PIN, HIGH);
           nextState = WAITING;
           break;
         default:
-          Serial.print("Entered COUNTDOWN State\n");
+//          Serial.print("Entered COUNTDOWN State\n");
 //          Serial.print(currentState);
           countdown_led(true);
           nextState = currentState;
@@ -118,9 +115,11 @@ void roborival_FSM (event_type newEvent) {
           Serial.println("Event ESTOP");
           nextState = WAITING;
           stopRoutine();
+          servo.detach();
           break;
         case UI_STOP:
           Serial.println("UI_STOP");
+          stopRoutine();
           nextState = SETUP;
           setLEDColor(CRGB::HotPink);
           break;
@@ -133,9 +132,9 @@ void roborival_FSM (event_type newEvent) {
 //          stopRoutine();
 //          break;
         default:
-//          driving_led(true);
           setLEDColor(CRGB::Green);
-          Serial.print("Entered DRIVING_STRAIGHT State\n");
+//          Serial.print("Entered DRIVING_STRAIGHT State\n");
+          forwardRoutine();
           nextState = currentState;
           break;
       }
@@ -191,25 +190,46 @@ void countdRoutine() {
 }
 
 void forwardRoutine() {
-  Serial.println("Going forward (reading encoders; reading IR sensors; following line)");
+//  Serial.println("Going forward (reading encoders; reading IR sensors; following line)");
   readEncoders();
-//  Serial.print(currentTimePi);
-//  Serial.print('\t');
-//  Serial.print((int) (currDistanceEnc*1000));
-//  Serial.print('\t');
-//  Serial.print((int) (currSpeedEnc*1000));
-//  Serial.print('\t');
-//  Serial.print((int) (avgSpeedEnc*1000));
-//  Serial.print('\t');
+  Serial.print(currentTimePi);
+  Serial.print('\t');
+  Serial.print((int) (currDistanceEnc*1000));
+  Serial.print('\t');
+  Serial.print((int) (currSpeedEnc*1000));
+  Serial.print('\t');
+  Serial.print((int) (avgSpeedEnc*1000));
+  Serial.print('\t');
   readIRSensors();
-  followLine();
+  speedPID(); // moving
+  followLine(); // steering; print line error
 }
 
-void avoidRoutine() {
-  delay(1000);
-  Serial.println("Avoiding obstacles");
-}
+//void avoidRoutine() {
+//  delay(1000);
+//  Serial.println("Avoiding obstacles");
+//}
 
 void stopRoutine() {
   setMotorSTOP();
+}
+
+void wait4setting() {
+//  Serial.println("waiting for input");
+//  int index;
+  if (Serial.available() > 0) {
+    String user_speed = Serial.readStringUntil('\n');
+//    for (int i = 0;i<user_speed.length();i++) {
+//      if (user_speed[i] == '$') {
+//        index = i;
+//        break;
+//      }
+//    }
+//    user_speed = user_speed.substring(index);
+    Serial.print("You set a speed of: ");
+    Serial.println(user_speed);
+    Serial.flush();
+  } /*else {
+    user_speed = '';
+  }*/
 }

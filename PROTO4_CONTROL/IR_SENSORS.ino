@@ -22,7 +22,6 @@ void setupIR(void)
   for (uint16_t i = 0; i < 400; i++)
   {
     qtr.calibrate();
-//    setup_led(true);
   }
   //digitalWrite(LED_BUILTIN, LOW); 
 //  Serial.begin(9600);
@@ -54,12 +53,13 @@ void readIRSensors(void)
 //    Serial.print(", ");
 //  }
 //  Serial.print("||");
-//  Serial.println(linePosition);
+//  Serial.print(linePosition);
+//  Serial.print('\t');
 }
 
 void followLine(void)
 {
-  static float last_turningAngle = 84; // SERVO_HOME
+  static float last_turningAngle = SERVO_HOME; // SERVO_HOME
   float new_turningAngle;
   float e_p = lineRef - linePosition;
   Serial.println(e_p);
@@ -67,7 +67,7 @@ void followLine(void)
 
 
  // replace 84 with SERVO_HOME
-  new_turningAngle = (84) + (kp_line * e_p) + kd_line * e_d;
+  new_turningAngle = (SERVO_HOME) + (kp_line * e_p) + kd_line * e_d;
 //  new_turningAngle = (84) + (kp_line * e_p);
   if (abs(new_turningAngle - last_turningAngle) < 1.) {
     turningAngle = last_turningAngle;
